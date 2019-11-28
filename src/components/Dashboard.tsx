@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
-
+import { connectionClose, connectionOpen } from '../actions/connectionActions';
 import QuestionState from './QuestionState';
 
 interface RouteProps {
@@ -11,6 +12,8 @@ interface RouteProps {
 
 interface Props extends RouteComponentProps<RouteProps> {
     dispatch: Function,
+    connectionOpen: Function,
+    connectionClose: Function,
 }
 
 
@@ -19,6 +22,8 @@ class Dashboard extends Component<Props> {
         super(props);
 
         this.onMessage = this.onMessage.bind(this);
+        this.onClose = this.onClose.bind(this);
+        this.onOpen = this.onOpen.bind(this);
     }
 
     componentDidMount() {
@@ -29,6 +34,20 @@ class Dashboard extends Component<Props> {
             '/api/dashboard/' + dashboard_id + '/');
 
         ws.onmessage = this.onMessage;
+        ws.onclose = this.onClose;
+        ws.onopen = this.onOpen;
+    }
+
+    onOpen()
+    {
+        const { connectionOpen } = this.props;
+        connectionOpen();
+    }
+
+    onClose()
+    {
+        const { connectionClose } = this.props;
+        connectionClose();
     }
 
     onMessage(message: MessageEvent)
@@ -50,7 +69,11 @@ class Dashboard extends Component<Props> {
 
 const mapDispatchToProps = (dispatch: any) => {
     return {
-        dispatch: dispatch,
+        ...bindActionCreators({
+            connectionOpen,
+            connectionClose,
+        }, dispatch),
+        dispatch,
     };
 }
 

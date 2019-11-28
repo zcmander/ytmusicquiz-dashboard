@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { RootState } from './reducers/rootReducer';
+import { RootState } from '../reducers/rootReducer';
 
 interface Props {
     progress: number;

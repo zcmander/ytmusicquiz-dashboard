@@ -1,5 +1,5 @@
 import { DashboardState } from "../state";
-import { DashboardActionTypes, GAME_STATUS } from "../actionTypes/dashboarActionTypes";
+import { DashboardActionTypes, GAME_STATUS } from "../actionTypes/dashboardActionTypes";
 
 const initialState: DashboardState = {
     question_progress: 0,
