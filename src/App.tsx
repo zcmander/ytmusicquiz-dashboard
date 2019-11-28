@@ -8,7 +8,7 @@ import {
 
 import './App.css';
 
-import { Dashboard } from './Dashboard';
+import Dashboard from './Dashboard';
 
 const App: React.FC = () => {
   return (
