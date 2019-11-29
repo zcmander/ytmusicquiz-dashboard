@@ -4,6 +4,7 @@ import { DashboardActionTypes, GAME_STATUS } from "../actionTypes/dashboardActio
 const initialState: DashboardState = {
     question_progress: 0,
     question_count: 0,
+    youtube_id: null,
 }
 
 export const dashboardReducer = (
@@ -16,6 +17,7 @@ export const dashboardReducer = (
             return {
                 question_count: action.question.count,
                 question_progress: action.question.progress,
+                youtube_id: action.question.youtube.id,
             }
         default:
             return state;

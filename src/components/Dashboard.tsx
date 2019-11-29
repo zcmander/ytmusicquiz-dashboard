@@ -5,6 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import { connectionClose, connectionOpen } from '../actions/connectionActions';
 import QuestionState from './QuestionState';
+import YouTubePlayer from './YouTubePlayer';
 
 interface RouteProps {
     dashboard_id: string;
@@ -63,6 +64,7 @@ class Dashboard extends Component<Props> {
             Dashboard
         </h1>
             <QuestionState />
+            <YouTubePlayer />
         </>;
     }
 }
