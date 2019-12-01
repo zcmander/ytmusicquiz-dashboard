@@ -1,7 +1,17 @@
 export const GAME_STATUS = "game.status";
 
+/**
+ * Parameters for Youtube player (WS interface)
+ */
 export interface YouTubeStatus {
+    // Video id
     id: string | null;
+
+    // Start playing at (seconds)
+    start: number;
+
+    // End playing at (seconds)
+    end: number;
 }
 
 export interface QuestionStatus {

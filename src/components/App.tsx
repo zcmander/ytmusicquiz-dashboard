@@ -12,7 +12,7 @@ import Dashboard from './Dashboard';
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className="container">
       <Router>
         <Switch>
           <Route exact path="/dashboard/:dashboard_id" component={Dashboard} />
