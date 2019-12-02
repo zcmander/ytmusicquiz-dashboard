@@ -8,6 +8,8 @@ const initialState: DashboardState = {
     youtube_id: null,
     start: 0,
     end: 0,
+    history: [],
+    stats: []
 }
 
 export const dashboardReducer = (
@@ -24,6 +26,8 @@ export const dashboardReducer = (
                 youtube_id: action.question.youtube.id,
                 start: action.question.youtube.start,
                 end: action.question.youtube.end,
+                history: action.history,
+                stats: action.stats,
             }
         default:
             return state;

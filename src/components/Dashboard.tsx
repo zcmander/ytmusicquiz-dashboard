@@ -7,6 +7,8 @@ import { connectionClose, connectionOpen } from '../actions/connectionActions';
 import QuestionState from './QuestionState';
 import YouTubePlayer from './YouTubePlayer';
 import { RootState } from '../reducers/rootReducer';
+import { FullscreenText } from './FullscreenText';
+import PlayerStatistic from './PlayerStatistics';
 
 interface RouteProps {
     dashboard_id: string;
@@ -68,23 +70,25 @@ class Dashboard extends Component<Props> {
             { connected &&
                 <>
                     { waitingForGameState &&
-                        <>
-                            <h1 className="text-center">Waiting the game begin...</h1>
-                        </>
-                    }
+                        <FullscreenText text={"Waiting the game begin..."} />}
 
                     { !waitingForGameState &&
-                    <>
-                        <QuestionState />
-                        <YouTubePlayer />
-                    </>
+                    <div className="row h-100 justify-content-center align-items-center">
+                        <div className="col-12 align-self-start">
+                            <QuestionState />
+                        </div>
+                        <div className="col-12">
+                            <YouTubePlayer />
+                        </div>
+                        <div className="col-12 align-self-end">
+                            <PlayerStatistic />
+                        </div>
+                    </div>
                     }
                 </>
             }
             { !connected &&
-                <>
-                    <h1 className="text-center">Connecting...</h1>
-                </> }
+                <FullscreenText text={"Connecting..."} /> }
         </>;
     }
 }

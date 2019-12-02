@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react';
 import { connect } from 'react-redux';
 import { RootState } from '../reducers/rootReducer';
+import { FullscreenText } from './FullscreenText';
 
 interface Props {
     youtube_id: string | null;
@@ -165,32 +166,35 @@ class YouTubePlayer extends Component<Props, State> {
     render()
     {
         const { timer, playing, done } = this.state;
-
         const { start, end } = this.props;
 
-        if (end-start <= 0) {
-            return React.Fragment;
+        let has_progress = false;
+        let width_percent = "0%";
+
+        if (end-start > 0) {
+            has_progress = true;
+            width_percent = ( ((end-start) - timer) / (end-start)) * 100 + "%";
         }
 
-        const width_percent = ( ((end-start) - timer) / (end-start)) * 100 + "%";
-
-        return <>
+        return <div>
             <div id="player" ref={ this.player_div } />
             { !playing && !done &&
-                <h5 className="text-center text-muted">Loading...</h5> }
+                <h1 className="text-center text-muted">Loading...</h1> }
             { playing &&
                 <div className="timer">
-                    <h5 className="text-center">Listen carefully!</h5>
-                    <small>{timer} seconds remaining...</small>
-                    <div className="progress" style={{height: "20px"}}>
-                    <div className="progress-bar" role="progressbar" style={{width: width_percent}}></div>
-                    </div>
+                    <FullscreenText text="Listen carefully!" />
+                    <h4>{timer} seconds remaining...</h4>
+                    {
+                        has_progress && <>
+                            <div className="progress" style={{height: "60px"}}>
+                                <div className="progress-bar" role="progressbar" style={{width: width_percent}}></div>
+                            </div>
+                        </>
+                    }
                 </div> }
             { !playing && done &&
-                <div className="start_quessing">
-                    <h5 className="text-center">Start guessing!</h5>
-                </div>}
-        </>;
+                <FullscreenText text="Start guessing!" /> }
+        </div>;
     }
 }
 

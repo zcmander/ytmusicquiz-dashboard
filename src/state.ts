@@ -1,3 +1,4 @@
+import { HistoryStatus, PlayerStatisticsStatus } from "./actionTypes/dashboardActionTypes";
 
 
 export interface DashboardState {
@@ -7,4 +8,6 @@ export interface DashboardState {
     youtube_id: string | null;
     start: number;
     end: number;
+    history: HistoryStatus[];
+    stats: PlayerStatisticsStatus[],
 }
