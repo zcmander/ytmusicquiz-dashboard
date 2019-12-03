@@ -23,7 +23,7 @@ class QuestionState extends Component<Props> {
 
         const columns: any[] = [];
 
-        history.map((event, i) => {
+        history.forEach((event, i) => {
             if (event.type === "failed")
             {
                 columns.push(<div className="col bg-danger text-center d-flex justify-content-center align-items-center" key={i}>
@@ -55,10 +55,15 @@ class QuestionState extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState): Props => {
+    if (!state.dashboard.question)
+    {
+        throw new Error("No question found!");
+    }
+
     return {
-        progress: state.dashboard.question_progress,
-        count: state.dashboard.question_count,
-        history: state.dashboard.history,
+        progress: state.dashboard.question.progress,
+        count: state.dashboard.question.count,
+        history: state.dashboard.question.history,
     }
 }
 

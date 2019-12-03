@@ -42,5 +42,28 @@ export interface GameStatusAction {
     question: QuestionStatus;
 }
 
+export const GAME_ANSWER = "game.answer";
 
-export type DashboardActionTypes = GameStatusAction;
+export interface AnswerStatus {
+    artist: string;
+    track: string;
+    feat: string;
+}
+
+export interface Player {
+    id: number;
+    display_name: string;
+}
+
+export interface AnswerPlayer {
+    player: Player;
+    points: number;
+}
+
+export interface GameAnswerAction {
+    type: typeof GAME_ANSWER;
+    answer: AnswerStatus;
+    correct_answered_players: AnswerPlayer[];
+}
+
+export type DashboardActionTypes = GameStatusAction | GameAnswerAction;

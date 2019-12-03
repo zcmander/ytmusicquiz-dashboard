@@ -23,8 +23,13 @@ class PlayerStatistic extends React.Component<Props>
 }
 
 const mapStateToProps = (state: RootState): Props => {
+    if (!state.dashboard.question)
+    {
+        throw new Error("No question found!");
+    }
+
     return {
-        stats: state.dashboard.stats,
+        stats: state.dashboard.question.stats,
     }
 }
 

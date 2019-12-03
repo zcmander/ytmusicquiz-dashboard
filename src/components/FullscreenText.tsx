@@ -12,7 +12,7 @@ export const FullscreenText: React.SFC<FullscreenTextProps> = (props) =>
 
     return <div className="row h-100 justify-content-center align-items-center">
         <div className="col-12">
-            <animated.h1 style={animationProps} className="text-center">{props.text}</animated.h1>
+            <animated.h1 style={animationProps} className="display-3 text-center">{props.text}</animated.h1>
         </div>
     </div>;
 }

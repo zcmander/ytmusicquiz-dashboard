@@ -9,6 +9,7 @@ import YouTubePlayer from './YouTubePlayer';
 import { RootState } from '../reducers/rootReducer';
 import { FullscreenText } from './FullscreenText';
 import PlayerStatistic from './PlayerStatistics';
+import Answer from './Answer';
 
 interface RouteProps {
     dashboard_id: string;
@@ -20,6 +21,7 @@ interface Props extends RouteComponentProps<RouteProps> {
     connectionClose: Function,
     connected: boolean,
     waitingForGameState: boolean,
+    state: "QUESTION" | "ANSWER";
 }
 
 
@@ -65,7 +67,7 @@ class Dashboard extends Component<Props> {
 
     render()
     {
-        const { connected, waitingForGameState } = this.props;
+        const { connected, waitingForGameState, state } = this.props;
         return <>
             { connected &&
                 <>
@@ -73,16 +75,24 @@ class Dashboard extends Component<Props> {
                         <FullscreenText text={"Waiting the game begin..."} />}
 
                     { !waitingForGameState &&
+
                     <div className="row h-100 justify-content-center align-items-center">
-                        <div className="col-12 align-self-start">
-                            <QuestionState />
-                        </div>
-                        <div className="col-12">
-                            <YouTubePlayer />
-                        </div>
-                        <div className="col-12 align-self-end">
-                            <PlayerStatistic />
-                        </div>
+                        { state === "QUESTION" && <>
+                                <div className="col-12 align-self-start">
+                                    <QuestionState />
+                                </div>
+                                <div className="col-12">
+                                    <YouTubePlayer />
+                                </div>
+                                <div className="col-12 align-self-end">
+                                    <PlayerStatistic />
+                                </div>
+                            </> }
+                        { state === "ANSWER" && <>
+                                <div className="col-12">
+                                    <Answer />
+                                </div>
+                            </> }
                     </div>
                     }
                 </>
@@ -97,6 +107,7 @@ const mapStateToProps = (state: RootState) => {
     return {
         connected: state.connection.connected,
         waitingForGameState: !state.dashboard.loaded,
+        state: state.dashboard.state,
     }
 }
 

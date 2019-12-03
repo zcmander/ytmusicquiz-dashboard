@@ -199,10 +199,15 @@ class YouTubePlayer extends Component<Props, State> {
 }
 
 const mapStateToProps = (state: RootState): Props => {
+    if (!state.dashboard.question)
+    {
+        throw new Error("Question does not exist!");
+    }
+
     return {
-        youtube_id: state.dashboard.youtube_id,
-        start: state.dashboard.start,
-        end: state.dashboard.end,
+        youtube_id: state.dashboard.question.youtube_id,
+        start: state.dashboard.question.start,
+        end: state.dashboard.question.end,
     }
 }
 
