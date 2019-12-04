@@ -10,6 +10,7 @@ import { RootState } from '../reducers/rootReducer';
 import { FullscreenText } from './FullscreenText';
 import PlayerStatistic from './PlayerStatistics';
 import Answer from './Answer';
+import GameOver from './GameOver';
 
 interface RouteProps {
     dashboard_id: string;
@@ -21,7 +22,7 @@ interface Props extends RouteComponentProps<RouteProps> {
     connectionClose: Function,
     connected: boolean,
     waitingForGameState: boolean,
-    state: "QUESTION" | "ANSWER";
+    state: "QUESTION" | "ANSWER" | "GAMEOVER";
 }
 
 
@@ -93,6 +94,11 @@ class Dashboard extends Component<Props> {
                                     <Answer />
                                 </div>
                             </> }
+                        { state === "GAMEOVER" && <>
+                                <div className="col-12">
+                                    <GameOver />
+                                </div>
+                            </>}
                     </div>
                     }
                 </>

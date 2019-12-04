@@ -66,4 +66,18 @@ export interface GameAnswerAction {
     correct_answered_players: AnswerPlayer[];
 }
 
-export type DashboardActionTypes = GameStatusAction | GameAnswerAction;
+export const GAME_OVER = "game.over";
+
+export interface CumulativeHistory {
+    index: string;
+
+    [key: string]: number | string;
+}
+
+export interface GameOverAction {
+    type: typeof GAME_OVER;
+    stats: PlayerStatisticsStatus[];
+    cumhist: CumulativeHistory[];
+}
+
+export type DashboardActionTypes = GameStatusAction | GameAnswerAction | GameOverAction;

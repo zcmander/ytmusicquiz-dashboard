@@ -34,7 +34,7 @@ class Answer extends React.Component<Props>
                     </div>
 
                     <div className="col-12 text-center my-5">
-                        { correct_answered_players.length == 0 && <>
+                        { correct_answered_players.length === 0 && <>
                             <h3 className="text-danger mt-4">No correct answers</h3>
                         </> }
                         { correct_answered_players.length > 0 && <>

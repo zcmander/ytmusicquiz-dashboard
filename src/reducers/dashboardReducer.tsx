@@ -1,5 +1,5 @@
 import { DashboardState } from "../state";
-import { DashboardActionTypes, GAME_STATUS, GAME_ANSWER } from "../actionTypes/dashboardActionTypes";
+import { DashboardActionTypes, GAME_STATUS, GAME_ANSWER, GAME_OVER } from "../actionTypes/dashboardActionTypes";
 
 const initialState: DashboardState = {
     loaded: false,
@@ -14,6 +14,7 @@ const initialState: DashboardState = {
         stats: []
     },
     answer: null,
+    gameover: null,
 }
 
 export const dashboardReducer = (
@@ -35,7 +36,8 @@ export const dashboardReducer = (
                     history: action.history,
                     stats: action.stats,
                 },
-                answer: null
+                answer: null,
+                gameover: null,
             };
 
         case GAME_ANSWER:
@@ -47,6 +49,19 @@ export const dashboardReducer = (
                     correct_answered_players: action.correct_answered_players
                 },
                 question: null,
+                gameover: null,
+            };
+
+        case GAME_OVER:
+            return {
+                loaded: true,
+                state: "GAMEOVER",
+                gameover: {
+                    stats: action.stats,
+                    cumhist: action.cumhist,
+                },
+                question: null,
+                answer: null,
             };
 
         default:
