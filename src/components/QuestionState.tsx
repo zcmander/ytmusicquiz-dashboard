@@ -30,18 +30,19 @@ class QuestionState extends Component<Props> {
                     <h4>Failed</h4>
                 </div>);
             } else if (event.type === "player") {
-                columns.push(<div className="col bg-success text-center  d-flex justify-content-center align-items-center" key={i}>
+                columns.push(<div className="col bg-success text-center d-flex justify-content-center align-items-center" key={i}>
                     <h4>{ event.text }: { event.player }</h4>
                 </div>);
             } else {
-                columns.push(<div className="col bg-info text-center  d-flex justify-content-center align-items-center" key={i}>
+                columns.push(<div className="col bg-info text-center d-flex justify-content-center align-items-center" key={i}>
                     <h4>{ event.text }</h4>
                 </div>);
             }
         });
 
         for (let i = progress +1; i <= count; i++) {
-            columns.push(<div className="col bg-dark text-center" key={-i}>
+            columns.push(<div className="col bg-dark text-center d-flex justify-content-center align-items-center" key={-i}>
+                <h4 className="text-white-50">{i}</h4>
             </div>);
         }
 
