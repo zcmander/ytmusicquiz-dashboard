@@ -45,8 +45,8 @@ class GameOver extends React.Component<Props>
                         <h3 className="text-center text-muted">Points:</h3>
                         <ResponsiveContainer width={"100%"} height={600}>
                             <BarChart data={statsdata}>
-                                <XAxis dataKey="name" stroke="#fff"/>
-                                <YAxis stroke="#fff"/>
+                                <XAxis dataKey="name" stroke="#999"/>
+                                <YAxis stroke="#999"/>
                                 <Bar dataKey='points' fill={fill} maxBarSize={80}/>
                                 <Legend />
                             </BarChart>
