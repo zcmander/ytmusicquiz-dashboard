@@ -28,12 +28,16 @@ interface Props extends RouteComponentProps<RouteProps> {
 
 
 class Dashboard extends Component<Props> {
+    private player: React.RefObject<any>;
+
     constructor(props: Props) {
         super(props);
 
         this.onMessage = this.onMessage.bind(this);
         this.onClose = this.onClose.bind(this);
         this.onOpen = this.onOpen.bind(this);
+
+        this.player = React.createRef();
     }
 
     componentDidMount() {

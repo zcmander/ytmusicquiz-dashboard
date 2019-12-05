@@ -8,6 +8,7 @@ export interface QuestionState {
     end: number;
     history: HistoryStatus[];
     stats: PlayerStatisticsStatus[];
+    playing: boolean,
 }
 
 export interface AnswerState {

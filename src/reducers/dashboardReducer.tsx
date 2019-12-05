@@ -1,5 +1,5 @@
 import { DashboardState } from "../state";
-import { DashboardActionTypes, GAME_STATUS, GAME_ANSWER, GAME_OVER } from "../actionTypes/dashboardActionTypes";
+import { DashboardActionTypes, GAME_STATUS, GAME_ANSWER, GAME_OVER, CONTROL_PLAYPAUSE } from "../actionTypes/dashboardActionTypes";
 
 const initialState: DashboardState = {
     loaded: false,
@@ -11,7 +11,8 @@ const initialState: DashboardState = {
         start: 0,
         end: 0,
         history: [],
-        stats: []
+        stats: [],
+        playing: false,
     },
     answer: null,
     gameover: null,
@@ -35,6 +36,7 @@ export const dashboardReducer = (
                     end: action.question.youtube.end,
                     history: action.history,
                     stats: action.stats,
+                    playing: true,
                 },
                 answer: null,
                 gameover: null,
@@ -63,6 +65,20 @@ export const dashboardReducer = (
                 question: null,
                 answer: null,
             };
+
+        case CONTROL_PLAYPAUSE:
+            if (!state.question)
+            {
+                return state;
+            }
+
+            return {
+                ...state,
+                question: {
+                    ...state.question,
+                    playing: !state.question.playing,
+                }
+            }
 
         default:
             return state;

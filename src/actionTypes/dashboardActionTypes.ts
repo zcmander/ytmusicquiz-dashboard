@@ -80,4 +80,13 @@ export interface GameOverAction {
     cumhist: CumulativeHistory[];
 }
 
-export type DashboardActionTypes = GameStatusAction | GameAnswerAction | GameOverAction;
+export const CONTROL_PLAYPAUSE = "control.playpause";
+
+export interface ControlPlayPauseAction {
+    type: typeof CONTROL_PLAYPAUSE;
+}
+
+export type DashboardActionTypes = GameStatusAction
+    | GameAnswerAction
+    | GameOverAction
+    | ControlPlayPauseAction;

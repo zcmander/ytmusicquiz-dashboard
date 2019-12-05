@@ -7,6 +7,7 @@ interface Props {
     youtube_id: string | null;
     start: number;
     end: number;
+    playing: boolean;
 }
 
 interface State {
@@ -15,7 +16,7 @@ interface State {
     playing: boolean;
 }
 
-class YouTubePlayer extends Component<Props, State> {
+export class YouTubePlayer extends Component<Props, State> {
 
     player_div = createRef<HTMLDivElement>();
     player: YT.Player | null = null;
@@ -62,6 +63,17 @@ class YouTubePlayer extends Component<Props, State> {
         if (previousProps.youtube_id !== this.props.youtube_id) {
             this.loadVideo();
         }
+
+        if (previousProps.playing !== this.props.playing) {
+            if (this.player) {
+                if (this.player.getPlayerState() == (window as any).YT.PlayerState.PLAYING)
+                {
+                    this.player.pauseVideo();
+                } else {
+                    this.player.playVideo();
+                }
+            }
+        }
     }
 
     onPlayerReady() {
@@ -84,27 +96,37 @@ class YouTubePlayer extends Component<Props, State> {
                     console.error("YouTube player not found!");
                     return;
                 }
-
-                this.player.pauseVideo();
-                if (this.timer) {
-                    clearTimeout(this.timer);
-                }
-
-                this.setState({
-                    timer: 0,
-                    playing: false
-                });
             }, timeout);
 
             /* Running timer */
             const runTimer = () => {
                 this.timer = setTimeout(() => {
+                    if (!this.player)
+                    {
+                        runTimer();
+                        return;
+                    }
+
+                    const ytTime = this.player.getCurrentTime();
+
                     this.setState({
-                        timer: this.state.timer - 1
+                        timer: end - ytTime,
                     });
 
-                    runTimer();
-                }, 1000);
+                    if (ytTime >= end) {
+                        this.player.pauseVideo();
+                        if (this.timer) {
+                            clearTimeout(this.timer);
+                        }
+
+                        this.setState({
+                            timer: 0,
+                            playing: false
+                        });
+                    } else {
+                        runTimer();
+                    }
+                }, 100);
             }
             runTimer();
 
@@ -183,7 +205,7 @@ class YouTubePlayer extends Component<Props, State> {
             { playing &&
                 <div className="timer">
                     <FullscreenText text="Listen carefully!" />
-                    <h4>{timer} seconds remaining...</h4>
+                    <h4>{Math.ceil(timer)} seconds remaining...</h4>
                     {
                         has_progress && <>
                             <div className="progress" style={{height: "60px"}}>
@@ -208,7 +230,13 @@ const mapStateToProps = (state: RootState): Props => {
         youtube_id: state.dashboard.question.youtube_id,
         start: state.dashboard.question.start,
         end: state.dashboard.question.end,
+        playing: state.dashboard.question.playing,
     }
 }
 
-export default connect(mapStateToProps)(YouTubePlayer);
+export default connect(
+    mapStateToProps,
+    null,
+    null,
+    { forwardRef: true }
+)(YouTubePlayer);
