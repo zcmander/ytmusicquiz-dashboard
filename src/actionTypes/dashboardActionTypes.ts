@@ -86,7 +86,14 @@ export interface ControlPlayPauseAction {
     type: typeof CONTROL_PLAYPAUSE;
 }
 
+export const CONTROL_REPLAY = "control.replay";
+
+export interface ControlReplayAction {
+    type: typeof CONTROL_REPLAY;
+}
+
 export type DashboardActionTypes = GameStatusAction
     | GameAnswerAction
     | GameOverAction
-    | ControlPlayPauseAction;
+    | ControlPlayPauseAction
+    | ControlReplayAction;

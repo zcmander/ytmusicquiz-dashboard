@@ -8,6 +8,7 @@ interface Props {
     start: number;
     end: number;
     playing: boolean;
+    replay_counter: number;
 }
 
 interface State {
@@ -73,6 +74,11 @@ export class YouTubePlayer extends Component<Props, State> {
                     this.player.playVideo();
                 }
             }
+        }
+
+        if (previousProps.replay_counter < this.props.replay_counter)
+        {
+            this.loadVideo();
         }
     }
 
@@ -208,10 +214,10 @@ export class YouTubePlayer extends Component<Props, State> {
         return <div>
             <div id="player" ref={ this.player_div } />
             { !playing && !done &&
-                <h1 className="text-center text-muted">Loading...</h1> }
+                <FullscreenText text="Loading..." /> }
             { playing &&
                 <div className="timer">
-                    <FullscreenText text="Listen carefully!" />
+                    <FullscreenText text="Listen carefully!" className="display-3" />
                     <h4>{Math.ceil(timer)} seconds remaining...</h4>
                     {
                         has_progress && <>
@@ -222,7 +228,7 @@ export class YouTubePlayer extends Component<Props, State> {
                     }
                 </div> }
             { !playing && done &&
-                <FullscreenText text="Start guessing!" /> }
+                <FullscreenText text="Start guessing!" className="display-3" /> }
         </div>;
     }
 }
@@ -238,12 +244,8 @@ const mapStateToProps = (state: RootState): Props => {
         start: state.dashboard.question.start,
         end: state.dashboard.question.end,
         playing: state.dashboard.question.playing,
+        replay_counter: state.dashboard.question.replay_counter,
     }
 }
 
-export default connect(
-    mapStateToProps,
-    null,
-    null,
-    { forwardRef: true }
-)(YouTubePlayer);
+export default connect(mapStateToProps)(YouTubePlayer);
