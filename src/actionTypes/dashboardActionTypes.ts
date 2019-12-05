@@ -92,8 +92,16 @@ export interface ControlReplayAction {
     type: typeof CONTROL_REPLAY;
 }
 
+export const DASHBOARD_ID = "dashboard.id";
+
+export interface DashboardIdAction {
+    type: typeof DASHBOARD_ID;
+    dashboard_id: string;
+}
+
 export type DashboardActionTypes = GameStatusAction
     | GameAnswerAction
     | GameOverAction
     | ControlPlayPauseAction
-    | ControlReplayAction;
+    | ControlReplayAction
+    | DashboardIdAction;

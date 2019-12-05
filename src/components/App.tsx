@@ -15,7 +15,7 @@ const App: React.FC = () => {
     <div className="container-fluid h-100">
       <Router>
         <Switch>
-          <Route exact path="/dashboard/:dashboard_id" component={Dashboard} />
+          <Route exact path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
     </div>

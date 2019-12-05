@@ -23,6 +23,7 @@ export interface GameOverState {
 }
 
 export interface DashboardState {
+    id: string | null,
     loaded: boolean,
     state: "QUESTION" | "ANSWER" | "GAMEOVER",
     question: QuestionState | null;

@@ -5,11 +5,13 @@ import {
     GAME_ANSWER,
     GAME_OVER,
     CONTROL_PLAYPAUSE,
-    CONTROL_REPLAY
+    CONTROL_REPLAY,
+    DASHBOARD_ID
 } from "../actionTypes/dashboardActionTypes";
 
 const initialState: DashboardState = {
     loaded: false,
+    id: null,
     state: "QUESTION",
     question: {
         progress: 0,
@@ -34,6 +36,7 @@ export const dashboardReducer = (
     {
         case GAME_STATUS:
             return {
+                id: state.id,
                 loaded: true,
                 state: "QUESTION",
                 question: {
@@ -53,6 +56,7 @@ export const dashboardReducer = (
 
         case GAME_ANSWER:
             return {
+                id: state.id,
                 loaded: true,
                 state: "ANSWER",
                 answer: {
@@ -65,6 +69,7 @@ export const dashboardReducer = (
 
         case GAME_OVER:
             return {
+                id: state.id,
                 loaded: true,
                 state: "GAMEOVER",
                 gameover: {
@@ -101,6 +106,12 @@ export const dashboardReducer = (
                     ...state.question,
                     replay_counter: state.question.replay_counter + 1,
                 }
+            }
+
+        case DASHBOARD_ID:
+            return {
+                ...state,
+                id: action.dashboard_id,
             }
 
         default:

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+import QRCode from 'qrcode.react';
 
 import { connectionClose, connectionOpen } from '../actions/connectionActions';
 import QuestionState from './QuestionState';
@@ -18,34 +19,29 @@ interface RouteProps {
 }
 
 interface Props extends RouteComponentProps<RouteProps> {
-    dispatch: Function,
-    connectionOpen: Function,
-    connectionClose: Function,
-    connected: boolean,
-    waitingForGameState: boolean,
+    dispatch: Function;
+    connectionOpen: Function;
+    connectionClose: Function;
+    connected: boolean;
+    waitingForGameState: boolean;
     state: "QUESTION" | "ANSWER" | "GAMEOVER";
+    dashboard_id: string | null;
 }
 
 
 class Dashboard extends Component<Props> {
-    private player: React.RefObject<any>;
-
     constructor(props: Props) {
         super(props);
 
         this.onMessage = this.onMessage.bind(this);
         this.onClose = this.onClose.bind(this);
         this.onOpen = this.onOpen.bind(this);
-
-        this.player = React.createRef();
     }
 
     componentDidMount() {
-        const dashboard_id = this.props.match.params.dashboard_id;
-
         const ws = new WebSocket(
             'ws://' + window.location.host +
-            '/api/dashboard/' + dashboard_id + '/');
+            '/api/dashboard/');
 
         ws.onmessage = this.onMessage;
         ws.onclose = this.onClose;
@@ -73,15 +69,18 @@ class Dashboard extends Component<Props> {
 
     render()
     {
-        const { connected, waitingForGameState, state } = this.props;
+        const { connected, waitingForGameState, state, dashboard_id } = this.props;
         return <>
             <div className="row h-100 justify-content-center align-items-center">
                 { (!connected || (connected && waitingForGameState)) &&
                     <div className="col-12"><Logo /></div> }
                 { connected &&
                     <>
-                        { waitingForGameState &&
-                            <FullscreenText text={"Waiting the game begin..."} />}
+                        { waitingForGameState && <>
+                            { dashboard_id &&
+                                <QRCode value={dashboard_id} size={512} includeMargin={true} /> }
+                            <FullscreenText text={"Waiting the game begin..."} />
+                            </> }
 
                         { !waitingForGameState && <>
                             { state === "QUESTION" && <>
@@ -120,6 +119,7 @@ const mapStateToProps = (state: RootState) => {
         connected: state.connection.connected,
         waitingForGameState: !state.dashboard.loaded,
         state: state.dashboard.state,
+        dashboard_id: state.dashboard.id,
     }
 }
 

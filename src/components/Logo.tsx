@@ -30,7 +30,12 @@ export const Logo: React.FC = () => {
 
     return <animated.h1 className="text-center display-1 my-5">
         { parts.map((part, i) => {
-            return <animated.div className={part.class + " d-inline-block"} style={trail[i]}>{part.text}</animated.div>
+            return <animated.div
+                className={part.class + " d-inline-block"}
+                style={trail[i]}
+                key={i}>
+                    {part.text}
+                </animated.div>
         }) }
     </animated.h1>
 }
