@@ -25,6 +25,7 @@ export interface GameOverState {
 export interface DashboardState {
     id: string | null,
     loaded: boolean,
+    connected_to_game: boolean,
     state: "QUESTION" | "ANSWER" | "GAMEOVER",
     question: QuestionState | null;
     answer: AnswerState | null;

@@ -4,16 +4,15 @@ import { useTrail, animated } from 'react-spring'
 export const Logo: React.FC = () => {
     const trail = useTrail(6, {
         from: {
-            transform: 'translate3d(0,-200px,0)',
+            transform: 'translate3d(0,-200px,0) scale(0.9)',
             opacity: 0
         },
         to: {
-            transform: 'translate3d(0,0px,0)',
+            transform: 'translate3d(0,0px,0) scale(1)',
             opacity: 1
         },
         config: {
             mass: 2,
-            frinction: 24,
             velocity: 0,
             tension: 500
         }

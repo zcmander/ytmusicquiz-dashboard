@@ -6,11 +6,14 @@ import {
     GAME_OVER,
     CONTROL_PLAYPAUSE,
     CONTROL_REPLAY,
-    DASHBOARD_ID
+    DASHBOARD_ID,
+    CONTROL_CONNECT,
+    GAME_FINISH
 } from "../actionTypes/dashboardActionTypes";
 
 const initialState: DashboardState = {
     loaded: false,
+    connected_to_game: false,
     id: null,
     state: "QUESTION",
     question: {
@@ -38,6 +41,7 @@ export const dashboardReducer = (
             return {
                 id: state.id,
                 loaded: true,
+                connected_to_game: state.connected_to_game,
                 state: "QUESTION",
                 question: {
                     count: action.question.count,
@@ -58,6 +62,7 @@ export const dashboardReducer = (
             return {
                 id: state.id,
                 loaded: true,
+                connected_to_game: state.connected_to_game,
                 state: "ANSWER",
                 answer: {
                     answer: action.answer,
@@ -70,6 +75,7 @@ export const dashboardReducer = (
         case GAME_OVER:
             return {
                 id: state.id,
+                connected_to_game: state.connected_to_game,
                 loaded: true,
                 state: "GAMEOVER",
                 gameover: {
@@ -108,11 +114,21 @@ export const dashboardReducer = (
                 }
             }
 
+        case CONTROL_CONNECT:
+            return {
+                ...state,
+                connected_to_game: true,
+            }
+
         case DASHBOARD_ID:
             return {
                 ...state,
                 id: action.dashboard_id,
             }
+
+        case GAME_FINISH:
+            window.location.reload();
+            return state;
 
         default:
             return state;

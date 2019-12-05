@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
+import { Spring } from 'react-spring/renderprops'
 import QRCode from 'qrcode.react';
 
 import { connectionClose, connectionOpen } from '../actions/connectionActions';
@@ -26,6 +27,7 @@ interface Props extends RouteComponentProps<RouteProps> {
     waitingForGameState: boolean;
     state: "QUESTION" | "ANSWER" | "GAMEOVER";
     dashboard_id: string | null;
+    gameConnected: boolean;
 }
 
 
@@ -69,46 +71,74 @@ class Dashboard extends Component<Props> {
 
     render()
     {
-        const { connected, waitingForGameState, state, dashboard_id } = this.props;
+        const { connected, waitingForGameState, state, dashboard_id, gameConnected } = this.props;
+
+        const qrPlaceholder = <div style={{width: 512, height: 512}}></div>;
+
         return <>
             <div className="row h-100 justify-content-center align-items-center">
                 { (!connected || (connected && waitingForGameState)) &&
                     <div className="col-12"><Logo /></div> }
-                { connected &&
-                    <>
-                        { waitingForGameState && <>
-                            { dashboard_id &&
-                                <QRCode value={dashboard_id} size={512} includeMargin={true} /> }
+                { connected && <>
+                    { waitingForGameState && <>
+                        { (dashboard_id && !gameConnected) &&
+                            <Spring
+                                from={{
+                                    transform: 'translate3d(0,200px,0) scale(0)',
+                                    opacity: 0
+                                }}
+                                to={{
+                                    transform: 'translate3d(0,0px,0) scale(1)',
+                                    opacity: 1
+                                }}
+                                config={{
+                                    mass: 1,
+                                    tension: 10,
+                                    friction: 5,
+                                    velocity: 0,
+                                }}
+                            >
+                                {props => <QRCode value={dashboard_id} size={512} includeMargin={true} style={props} /> }
+                            </Spring>}
+                        { !gameConnected &&
+                            <FullscreenText text={"Waiting a game to be created..."} /> }
+                        { gameConnected &&
+                            <>
+                            {qrPlaceholder}
                             <FullscreenText text={"Waiting the game begin..."} />
-                            </> }
+                            </>}
+                        </> }
 
-                        { !waitingForGameState && <>
-                            { state === "QUESTION" && <>
-                                    <div className="col-12 align-self-start">
-                                        <QuestionState />
-                                    </div>
-                                    <div className="col-12">
-                                        <YouTubePlayer />
-                                    </div>
-                                    <div className="col-12 align-self-end">
-                                        <PlayerStatistic />
-                                    </div>
-                                </> }
-                            { state === "ANSWER" && <>
-                                    <div className="col-12">
-                                        <Answer />
-                                    </div>
-                                </> }
-                            { state === "GAMEOVER" && <>
-                                    <div className="col-12">
-                                        <GameOver />
-                                    </div>
-                                </>}
+                    { !waitingForGameState && <>
+                        { state === "QUESTION" && <>
+                                <div className="col-12 align-self-start">
+                                    <QuestionState />
+                                </div>
+                                <div className="col-12">
+                                    <YouTubePlayer />
+                                </div>
+                                <div className="col-12 align-self-end">
+                                    <PlayerStatistic />
+                                </div>
                             </> }
+                        { state === "ANSWER" && <>
+                                <div className="col-12">
+                                    <Answer />
+                                </div>
+                            </> }
+                        { state === "GAMEOVER" && <>
+                                <div className="col-12">
+                                    <GameOver />
+                                </div>
+                            </>}
+                        </> }
                     </>
                 }
                 { !connected &&
-                    <FullscreenText text={"Connecting..."} /> }
+                    <>
+                    {qrPlaceholder}
+                    <FullscreenText text={"Connecting..."} />
+                    </>}
             </div>
         </>;
     }
@@ -120,6 +150,7 @@ const mapStateToProps = (state: RootState) => {
         waitingForGameState: !state.dashboard.loaded,
         state: state.dashboard.state,
         dashboard_id: state.dashboard.id,
+        gameConnected: state.dashboard.connected_to_game,
     }
 }
 

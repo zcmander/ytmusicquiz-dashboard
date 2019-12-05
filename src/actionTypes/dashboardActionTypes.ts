@@ -80,6 +80,12 @@ export interface GameOverAction {
     cumhist: CumulativeHistory[];
 }
 
+export const GAME_FINISH = "game.finish";
+
+export interface GameFinishAction {
+    type: typeof GAME_FINISH;
+}
+
 export const CONTROL_PLAYPAUSE = "control.playpause";
 
 export interface ControlPlayPauseAction {
@@ -99,9 +105,17 @@ export interface DashboardIdAction {
     dashboard_id: string;
 }
 
+export const CONTROL_CONNECT = "control.connect";
+
+export interface ConnectAction {
+    type: typeof CONTROL_CONNECT;
+}
+
 export type DashboardActionTypes = GameStatusAction
     | GameAnswerAction
     | GameOverAction
     | ControlPlayPauseAction
     | ControlReplayAction
-    | DashboardIdAction;
+    | DashboardIdAction
+    | ConnectAction
+    | GameFinishAction;
