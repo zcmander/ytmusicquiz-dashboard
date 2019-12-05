@@ -11,6 +11,7 @@ import { FullscreenText } from './FullscreenText';
 import PlayerStatistic from './PlayerStatistics';
 import Answer from './Answer';
 import GameOver from './GameOver';
+import { Logo } from './Logo';
 
 interface RouteProps {
     dashboard_id: string;
@@ -70,41 +71,42 @@ class Dashboard extends Component<Props> {
     {
         const { connected, waitingForGameState, state } = this.props;
         return <>
-            { connected &&
-                <>
-                    { waitingForGameState &&
-                        <FullscreenText text={"Waiting the game begin..."} />}
+            <div className="row h-100 justify-content-center align-items-center">
+                { (!connected || (connected && waitingForGameState)) &&
+                    <div className="col-12"><Logo /></div> }
+                { connected &&
+                    <>
+                        { waitingForGameState &&
+                            <FullscreenText text={"Waiting the game begin..."} />}
 
-                    { !waitingForGameState &&
-
-                    <div className="row h-100 justify-content-center align-items-center">
-                        { state === "QUESTION" && <>
-                                <div className="col-12 align-self-start">
-                                    <QuestionState />
-                                </div>
-                                <div className="col-12">
-                                    <YouTubePlayer />
-                                </div>
-                                <div className="col-12 align-self-end">
-                                    <PlayerStatistic />
-                                </div>
+                        { !waitingForGameState && <>
+                            { state === "QUESTION" && <>
+                                    <div className="col-12 align-self-start">
+                                        <QuestionState />
+                                    </div>
+                                    <div className="col-12">
+                                        <YouTubePlayer />
+                                    </div>
+                                    <div className="col-12 align-self-end">
+                                        <PlayerStatistic />
+                                    </div>
+                                </> }
+                            { state === "ANSWER" && <>
+                                    <div className="col-12">
+                                        <Answer />
+                                    </div>
+                                </> }
+                            { state === "GAMEOVER" && <>
+                                    <div className="col-12">
+                                        <GameOver />
+                                    </div>
+                                </>}
                             </> }
-                        { state === "ANSWER" && <>
-                                <div className="col-12">
-                                    <Answer />
-                                </div>
-                            </> }
-                        { state === "GAMEOVER" && <>
-                                <div className="col-12">
-                                    <GameOver />
-                                </div>
-                            </>}
-                    </div>
-                    }
-                </>
-            }
-            { !connected &&
-                <FullscreenText text={"Connecting..."} /> }
+                    </>
+                }
+                { !connected &&
+                    <FullscreenText text={"Connecting..."} /> }
+            </div>
         </>;
     }
 }

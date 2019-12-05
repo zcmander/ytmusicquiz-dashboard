@@ -6,8 +6,9 @@ import { PlayerStatisticsStatus, CumulativeHistory } from "../actionTypes/dashbo
 import { createColorMap, linearScale } from "@colormap/core";
 import { CIVIDIS } from "@colormap/presets";
 
-
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, LineChart, Line, Legend } from 'recharts';
+
+import { Logo } from './Logo';
 
 interface Props {
     stats: PlayerStatisticsStatus[];
@@ -36,11 +37,12 @@ class GameOver extends React.Component<Props>
         return <>
             <div className="col">
                 <div className="row justify-content-center">
+                    <Logo />
                     <div className="col-12 text-center my-5">
                         <h1>Game over!</h1>
                     </div>
                     <div className="col-6">
-                        <h3 className="text-center">Points:</h3>
+                        <h3 className="text-center text-muted">Points:</h3>
                         <ResponsiveContainer width={"100%"} height={600}>
                             <BarChart data={statsdata}>
                                 <XAxis dataKey="name" stroke="#fff"/>
@@ -51,7 +53,7 @@ class GameOver extends React.Component<Props>
                         </ResponsiveContainer>
                     </div>
                     <div className="col-6">
-                        <h3 className="text-center">Progress:</h3>
+                        <h3 className="text-center text-muted">Progress:</h3>
                         <ResponsiveContainer width={"100%"} height={600}>
                             <LineChart data={this.props.cumhist}>
                                 <XAxis dataKey="index" stroke="#999"/>
