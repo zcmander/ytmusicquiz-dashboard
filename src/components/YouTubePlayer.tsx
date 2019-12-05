@@ -66,7 +66,7 @@ export class YouTubePlayer extends Component<Props, State> {
 
         if (previousProps.playing !== this.props.playing) {
             if (this.player) {
-                if (this.player.getPlayerState() == (window as any).YT.PlayerState.PLAYING)
+                if (this.player.getPlayerState() === (window as any).YT.PlayerState.PLAYING)
                 {
                     this.player.pauseVideo();
                 } else {
@@ -198,6 +198,13 @@ export class YouTubePlayer extends Component<Props, State> {
             width_percent = ( ((end-start) - timer) / (end-start)) * 100 + "%";
         }
 
+        let bgclass = "bg-primary";
+
+        if ((end-start) - timer < 10)
+        {
+            bgclass = "bg-warning";
+        }
+
         return <div>
             <div id="player" ref={ this.player_div } />
             { !playing && !done &&
@@ -209,7 +216,7 @@ export class YouTubePlayer extends Component<Props, State> {
                     {
                         has_progress && <>
                             <div className="progress" style={{height: "60px"}}>
-                                <div className="progress-bar" role="progressbar" style={{width: width_percent}}></div>
+                                <div className={"progress-bar " + bgclass} role="progressbar" style={{width: width_percent}}></div>
                             </div>
                         </>
                     }
