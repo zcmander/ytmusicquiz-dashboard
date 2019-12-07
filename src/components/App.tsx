@@ -13,9 +13,9 @@ import Dashboard from './Dashboard';
 const App: React.FC = () => {
   return (
     <div className="container-fluid h-100">
-      <Router>
+      <Router basename="/dashboard">
         <Switch>
-          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/" component={Dashboard} />
         </Switch>
       </Router>
     </div>
