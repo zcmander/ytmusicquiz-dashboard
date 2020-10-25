@@ -21,4 +21,4 @@ The application uses WebSocket-protocol for communicating in real-time to the ba
 [repo_ytmusicquiz]: https://github.com/zcmander/ytmusicquiz/
 [repo_ytmusicquiz_dashboard]: https://github.com/zcmander/ytmusicquiz-dashboard/
 [repo_ytmusicquiz_deploy]: https://github.com/zcmander/ytmusicquiz-deploy/
-[repo_ytmusicquiz_docs]: https://github.com/zcmander/ytmusicquiz-deploy/
+[repo_ytmusicquiz_docs]: https://github.com/zcmander/ytmusicquiz-docs/
